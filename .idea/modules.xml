@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Dvizecki Objekti/Dvizecki Objekti.iml" filepath="$PROJECT_DIR$/Dvizecki Objekti/Dvizecki Objekti.iml" />
+      <module fileurl="file://$PROJECT_DIR$/F1Race/F1Race.iml" filepath="$PROJECT_DIR$/F1Race/F1Race.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Kontakti/Kontakti.iml" filepath="$PROJECT_DIR$/Kontakti/Kontakti.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/NaprdenoProgramiranje.iml" filepath="$PROJECT_DIR$/.idea/NaprdenoProgramiranje.iml" />
+    </modules>
+  </component>
+</project>
