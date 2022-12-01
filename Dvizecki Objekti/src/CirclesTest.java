@@ -1,5 +1,5 @@
 import java.util.*;
-import static java.util.Arrays.*;
+
 
 enum TYPE {
     POINT,
@@ -96,7 +96,6 @@ class MovablePoint implements Movable{
         this.xSpeed = xSpeed;
         this.ySpeed = ySpeed;
     }
-
     @Override
     public String toString() {
         return "Movable point with coordinates ("+x+","+y+")";
@@ -129,7 +128,12 @@ class MovablePoint implements Movable{
     public int getCurrentYPosition() {
         return y;
     }
-
+    public int getxSpeed() {
+        return xSpeed;
+    }
+    public int getySpeed() {
+        return ySpeed;
+    }
     public boolean canMove(int deltaX, int deltaY) throws ObjectCanNotBeMovedException {
         if(x+deltaX> MovablesCollection.x_MAX || x+deltaX<0
                 || y+deltaY> MovablesCollection.y_MAX || y+deltaY<0){
@@ -141,7 +145,6 @@ class MovablePoint implements Movable{
 class MovableCircle implements Movable{
     private int radius;
     private MovablePoint center;
-
     public MovableCircle(int radius, MovablePoint center) {
         this.radius = radius;
         this.center = center;
@@ -176,7 +179,6 @@ class MovableCircle implements Movable{
     public MovablePoint getCenter() {
         return center;
     }
-
     @Override
     public String toString() {
         return "Movable circle with center coordinates ("+center.getCurrentXPosition()+","
@@ -197,9 +199,8 @@ class MovablesCollection {
     private List<Movable> movables;
     public static int x_MAX;
     public static int y_MAX;
-
     public MovablesCollection(Movable[] movables,int x_MAX,int y_MAX) {
-        this.movables = asList(movables);
+        this.movables = Arrays.asList(movables);
         MovablesCollection.x_MAX =x_MAX;
         MovablesCollection.y_MAX =y_MAX;
     }
@@ -215,8 +216,8 @@ class MovablesCollection {
     }
     public MovablesCollection(int x_MAX,int y_MAX){
         this.movables=new ArrayList<Movable>();
-        MovablesCollection.x_MAX =x_MAX;
-        MovablesCollection.y_MAX =y_MAX;
+        this.x_MAX =x_MAX;
+        this.y_MAX =y_MAX;
     }
     public static void setxMax(int x_MAX){
         MovablesCollection.x_MAX=x_MAX;
@@ -224,11 +225,11 @@ class MovablesCollection {
     public static void setyMax(int y_MAX){
         MovablesCollection.y_MAX=y_MAX;
     }
-    void addMovableObject(Movable m)throws MovableObjectNotFittableException{
+    public void addMovableObject(Movable m)throws MovableObjectNotFittableException{
         canExistMovable(m);
         movables.add(m);
     }
-    boolean canExistMovable(Movable m) throws MovableObjectNotFittableException{
+    public boolean canExistMovable(Movable m) throws MovableObjectNotFittableException{
         if(m.getCurrentXPosition()>x_MAX || m.getCurrentXPosition()<0
                 || m.getCurrentYPosition()>y_MAX || m.getCurrentYPosition()<0){
             if( m instanceof MovableCircle){
@@ -236,7 +237,6 @@ class MovablesCollection {
             }
             else throw new MovableObjectNotFittableException(String.format("Movable point with center (%d,%d) can not be fitted into the collection",m.getCurrentXPosition(),m.getCurrentYPosition()));
         }
-
         if(m instanceof MovableCircle){
             MovableCircle mc = (MovableCircle) m;
             if(mc.getCurrentXPosition()+mc.getRadius()>x_MAX || mc.getCurrentXPosition()-mc.getRadius()<0
@@ -246,17 +246,14 @@ class MovablesCollection {
         }
         return true;
     }
-
     @Override
     public String toString() {
-        String str="Collection of movable objects with size "+movables.size()+":\n";
-        for(Movable movable:movables){
-            str+=movable.toString()+'\n';
+        StringBuilder str= new StringBuilder("Collection of movable objects with size " + movables.size() + ":\n");
+        for(Movable mv:movables){
+            str.append(mv.toString()).append('\n');
         }
-        return str;
+        return str.toString();
     }
-
-
     void moveObjectsFromTypeWithDirection (TYPE type, DIRECTION direction) throws ObjectCanNotBeMovedException {
         Movable[] arrayTest = movables.toArray(new Movable[movables.size()]);
         ObjectCanNotBeMovedException ex = null;
@@ -280,105 +277,3 @@ class MovablesCollection {
         if(ex!=null) throw ex;
     }
 }
-//100
-//0 32 52 12 28
-//0 24 40 4 25
-//0 36 36 4 27
-//0 14 11 2 15
-//1 4 11 6 17 4
-//1 33 24 4 18 21
-//0 10 49 10 14
-//0 4 4 3 29
-//1 45 59 12 15 34
-//0 34 17 9 28
-//0 35 11 11 20
-//1 46 59 19 8 24
-//0 22 4 17 13
-//0 34 19 12 18
-//0 39 58 11 6
-//1 15 35 9 23 1
-//0 27 56 3 4
-//0 22 34 11 21
-//1 28 49 2 27 25
-//1 20 4 19 3 30
-//0 34 33 3 29
-//1 11 50 7 24 23
-//0 27 51 11 0
-//1 1 48 1 8 15
-//1 38 54 8 3 6
-//0 13 5 9 27
-//0 5 22 17 22
-//1 2 33 2 7 23
-//0 31 51 13 14
-//1 43 21 17 25 38
-//0 12 44 15 22
-//1 1 57 12 15 31
-//0 21 55 14 17
-//0 33 4 0 1
-//0 12 25 19 6
-//1 31 12 2 24 38
-//1 12 1 11 16 13
-//0 8 22 9 19
-//0 6 52 7 5
-//0 8 39 14 23
-//1 4 46 7 27 8
-//0 6 8 9 0
-//0 8 57 5 6
-//0 26 28 8 21
-//1 6 43 4 12 30
-//1 48 32 9 13 28
-//0 30 0 7 16
-//1 3 19 18 5 31
-//0 42 30 18 4
-//1 8 2 18 19 5
-//0 8 24 14 7
-//0 16 8 3 11
-//0 42 47 6 20
-//1 17 16 14 28 0
-//0 15 36 6 22
-//1 23 35 4 27 10
-//0 43 15 17 23
-//0 38 4 3 19
-//0 5 35 12 23
-//1 30 26 10 9 16
-//1 48 21 14 27 3
-//0 21 3 12 2
-//0 45 58 1 19
-//1 5 23 0 24 19
-//0 21 53 19 23
-//0 26 52 17 7
-//0 15 12 17 23
-//0 29 3 3 21
-//1 21 47 8 8 0
-//1 38 23 13 19 33
-//1 36 49 17 6 21
-//0 27 11 10 15
-//0 21 42 0 18
-//0 17 59 18 27
-//1 18 13 18 15 32
-//0 34 8 10 18
-//0 9 52 17 21
-//0 33 35 9 23
-//1 31 56 15 19 27
-//0 26 9 19 5
-//1 9 9 3 22 27
-//0 6 48 11 12
-//0 47 33 1 1
-//1 15 8 18 26 4
-//1 28 43 4 15 15
-//0 2 31 12 16
-//from here doesnt need to print down
-//0 1 53 1 6
-//1 16 1 18 7 33
-//0 4 38 13 17
-//0 41 27 10 10
-//1 13 38 2 10 14
-//1 47 26 16 29 16
-//1 36 15 7 20 30
-//0 28 25 2 25
-//1 0 52 0 19 27
-//0 7 59 8 1
-//0 26 3 5 5
-//0 15 19 2 21
-//0 28 22 16 14
-//0 17 23 17 18
