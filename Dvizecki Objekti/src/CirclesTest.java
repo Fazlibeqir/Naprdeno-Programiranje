@@ -78,18 +78,18 @@ public class CirclesTest {
     }
 }
 interface Movable{
-    void moveUp()throws ObjectCanNotBeMovedException;
-    void moveDown()throws ObjectCanNotBeMovedException;
-    void moveRight() throws ObjectCanNotBeMovedException;
+    void moveUp() throws ObjectCanNotBeMovedException;
+    void moveDown() throws ObjectCanNotBeMovedException;
     void moveLeft() throws ObjectCanNotBeMovedException;
+    void moveRight() throws ObjectCanNotBeMovedException;
     int getCurrentXPosition();
     int getCurrentYPosition();
 }
 class MovablePoint implements Movable{
     private int x;
     private int y;
-    private  int xSpeed;
-    private  int ySpeed;
+    private int xSpeed;
+    private int ySpeed;
     public MovablePoint(int x, int y, int xSpeed, int ySpeed) {
         this.x = x;
         this.y = y;
@@ -111,14 +111,14 @@ class MovablePoint implements Movable{
         y-=ySpeed;
     }
     @Override
-    public void moveRight() throws ObjectCanNotBeMovedException{
-        canMove(xSpeed,0);
-        x+=xSpeed;
-    }
-    @Override
     public void moveLeft() throws ObjectCanNotBeMovedException{
         canMove(-xSpeed,0);
         x-=xSpeed;
+    }
+    @Override
+    public void moveRight() throws ObjectCanNotBeMovedException{
+        canMove(xSpeed,0);
+        x+=xSpeed;
     }
     @Override
     public int getCurrentXPosition() {
@@ -158,12 +158,12 @@ class MovableCircle implements Movable{
         center.moveDown();
     }
     @Override
-    public void moveRight() throws ObjectCanNotBeMovedException {
-    center.moveRight();
-    }
-    @Override
     public void moveLeft() throws ObjectCanNotBeMovedException {
     center.moveLeft();
+    }
+    @Override
+    public void moveRight() throws ObjectCanNotBeMovedException {
+        center.moveRight();
     }
     @Override
     public int getCurrentXPosition() {
@@ -173,7 +173,7 @@ class MovableCircle implements Movable{
     public int getCurrentYPosition() {
         return center.getCurrentYPosition();
     }
-    public int getRadius(){
+    public int getRadius() {
         return radius;
     }
     public MovablePoint getCenter() {
@@ -181,8 +181,7 @@ class MovableCircle implements Movable{
     }
     @Override
     public String toString() {
-        return "Movable circle with center coordinates ("+center.getCurrentXPosition()+","
-                +center.getCurrentYPosition()+") and radius "+radius;
+        return "Movable circle with center coordinates ("+center.getCurrentXPosition()+","+center.getCurrentYPosition()+") and radius "+radius;
     }
 }
 class ObjectCanNotBeMovedException extends Exception{
@@ -206,7 +205,7 @@ class MovablesCollection {
     }
     public MovablesCollection(Movable[] movables,int x_MAX){
         this.movables=Arrays.asList(movables);
-        MovablesCollection.x_MAX =x_MAX;
+        this.x_MAX =x_MAX;
         y_MAX=100;
     }
     public MovablesCollection(Movable[] movables){
@@ -248,11 +247,11 @@ class MovablesCollection {
     }
     @Override
     public String toString() {
-        StringBuilder str= new StringBuilder("Collection of movable objects with size " + movables.size() + ":\n");
+        String str = "Collection of movable objects with size " + movables.size() + ":\n";
         for(Movable mv:movables){
-            str.append(mv.toString()).append('\n');
+            str+=(mv.toString())+'\n';
         }
-        return str.toString();
+        return str;
     }
     void moveObjectsFromTypeWithDirection (TYPE type, DIRECTION direction) throws ObjectCanNotBeMovedException {
         Movable[] arrayTest = movables.toArray(new Movable[movables.size()]);
